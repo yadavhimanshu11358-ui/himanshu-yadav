@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Himanshu’s Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Manrope:wght@400;500;700&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f6fb;--surface:#fff;--ink:#10143a;--muted:#656b8a;--line:#e3e6f2;
+  --brand:#5b3df5;--brand-ink:#fff;--chip:#ecefff;--shadow:0 10px 30px rgba(32,38,110,.08);
+  --head:'Sora','Segoe UI',system-ui,sans-serif;--ui:'Manrope','Segoe UI',system-ui,sans-serif;--read:'Source Serif 4',Georgia,serif;
+}
+:root[data-theme="dark"]{
+  --bg:#0b0e24;--surface:#141937;--ink:#eef0ff;--muted:#9aa1c7;--line:#242a52;
+  --brand:#8d7bff;--brand-ink:#0b0e24;--chip:#1c2248;--shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:17px;line-height:1.65;transition:background .3s,color .3s;overflow-x:hidden}
+:focus-visible{outline:3px solid var(--brand);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+button{font-family:inherit}
+
+/* floating navbar */
+header{position:sticky;top:0;z-index:20;padding:14px 0}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;height:62px;padding:0 12px 0 22px;background:color-mix(in srgb,var(--surface) 85%,transparent);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:99px;box-shadow:var(--shadow)}
+.brand{font-family:var(--head);font-weight:800;font-size:1.1rem;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:10px}
+.logo{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--brand),#19c9a0);display:grid;place-items:center;color:#fff;font-size:.95rem}
+.nav{display:flex;gap:4px}
+.nav a{font-weight:700;font-size:.93rem;text-decoration:none;color:var(--muted);padding:9px 16px;border-radius:99px;transition:.2s}
+.nav a:hover{color:var(--ink);background:var(--chip)}
+.nav a.active{color:var(--brand-ink);background:var(--brand)}
+.right{display:flex;gap:8px}
+.btn{font-weight:700;font-size:.92rem;border:0;border-radius:99px;padding:10px 18px;cursor:pointer;background:var(--chip);color:var(--ink);transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.primary{background:var(--brand);color:var(--brand-ink)}
+.burger{display:none}
+@media(max-width:760px){
+  .burger{display:inline-block}
+  .nav{display:none;position:absolute;top:84px;left:22px;right:22px;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:10px;box-shadow:var(--shadow)}
+  .nav.open{display:flex}
+  .nav a{padding:13px 16px}
+}
+
+/* floating navbar */
+header{position:sticky;top:0;z-index:20;padding:14px 0}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;height:62px;padding:0 12px 0 22px;background:color-mix(in srgb,var(--surface) 82%,transparent);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:99px}
+.brand{font-family:var(--head);font-weight:800;font-size:1.1rem;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:10px}
+.logo{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--brand),#19c9a0);display:grid;place-items:center;color:#0b0d17;font-size:.9rem}
+.nav{display:flex;align-items:center;gap:4px}
+.nav > a, .dropdown-toggle{font-family:inherit;font-weight:700;font-size:.93rem;text-decoration:none;color:var(--muted);padding:9px 16px;border-radius:99px;transition:.2s;background:none;border:0;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.nav > a:hover, .dropdown-toggle:hover{color:var(--ink);background:var(--chip)}
+.nav > a.active{color:var(--brand-ink);background:var(--brand)}
+
+/* Services Dropdown */
+.nav-dropdown{position:relative}
+.nav-dropdown::after{content:"";position:absolute;top:100%;left:0;width:100%;height:14px}
+.dropdown-menu{display:none;position:absolute;top:calc(100% + 12px);left:0;min-width:210px;padding:8px;background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,.35);flex-direction:column;gap:4px;z-index:99}
+.nav-dropdown:hover .dropdown-menu, .nav-dropdown.open .dropdown-menu{display:flex}
+.dropdown-menu a{font-weight:600;font-size:.9rem;text-decoration:none;color:var(--muted);padding:10px 14px;border-radius:12px;transition:.2s;white-space:nowrap}
+.dropdown-menu a:hover{color:var(--brand-ink);background:var(--brand);transform:translateX(3px)}
+
+.right{display:flex;gap:8px}
+.btn{font-weight:700;font-size:.92rem;border:0;border-radius:99px;padding:10px 18px;cursor:pointer;background:var(--chip);color:var(--ink);transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.primary{background:var(--brand);color:var(--brand-ink)}
+.burger{display:none}
+@media(max-width:760px){
+  .burger{display:inline-block}
+  .nav{display:none;position:absolute;top:84px;left:22px;right:22px;flex-direction:column;align-items:stretch;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:10px;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+  .nav.open{display:flex}
+  .nav > a, .dropdown-toggle{padding:13px 16px;justify-content:space-between}
+  .dropdown-menu{position:static;box-shadow:none;border:0;background:var(--chip);margin:4px 0 4px 12px}
+}
+
+/* hero */
+.hero{position:relative;padding:70px 0 50px}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;z-index:-1;animation:float 14s ease-in-out infinite alternate}
+.o1{width:340px;height:340px;background:#6b4dff;top:-40px;right:4%}
+.o2{width:260px;height:260px;background:#19c9a0;top:120px;right:26%;animation-delay:-6s}
+:root[data-theme="dark"] .orb{opacity:.28}
+@keyframes float{to{transform:translate(-40px,50px) scale(1.1)}}
+.hello{display:inline-block;background:var(--chip);border-radius:99px;padding:7px 16px;font-weight:700;font-size:.9rem;margin-bottom:22px}
+.hero h1{font-family:var(--head);font-weight:800;font-size:clamp(2.5rem,7.5vw,5rem);line-height:1.03;letter-spacing:-.04em;max-width:13ch}
+.grad{background:linear-gradient(90deg,var(--brand),#19c9a0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.caret{display:inline-block;width:.07em;height:.82em;background:var(--brand);margin-left:5px;vertical-align:-.04em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.hero p{margin-top:22px;color:var(--muted);font-size:1.12rem;max-width:44ch}
+.stats{display:flex;gap:28px;margin-top:34px;flex-wrap:wrap}
+.stats b{font-family:var(--head);font-size:1.7rem;display:block;line-height:1.1}
+.stats span{color:var(--muted);font-size:.9rem}
+
+/* tools */
+.tools{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:10px}
+.sec-title{font-family:var(--head);font-weight:800;font-size:2rem;letter-spacing:-.03em;margin-bottom:18px}
+.search{flex:1 1 260px;font:inherit;font-size:1rem;padding:14px 22px;border-radius:99px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.search:focus{border-color:var(--brand);outline:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-weight:700;font-size:.9rem;background:var(--surface);color:var(--ink);border:1.5px solid var(--line);border-radius:99px;padding:9px 18px;cursor:pointer;transition:.2s}
+.chip:hover{border-color:var(--brand)}
+.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.count{color:var(--muted);font-size:.9rem;margin:14px 0 18px}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:24px;overflow:hidden;cursor:pointer;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(32,38,110,.18)}
+.cover{position:relative;height:200px;overflow:hidden}
+.cover svg{width:100%;height:100%;display:block;transition:transform .5s}
+.card:hover .cover svg{transform:scale(1.07)}
+.tag{position:absolute;left:16px;top:16px;background:rgba(255,255,255,.92);color:#10143a;font-weight:700;font-size:.8rem;border-radius:99px;padding:5px 14px}
+.cbody{padding:24px 26px 26px;display:flex;flex-direction:column;flex:1}
+.card h3{font-family:var(--head);font-weight:700;font-size:1.3rem;line-height:1.25;letter-spacing:-.02em}
+.card h3 button{all:unset;cursor:pointer}
+.card h3 button:focus-visible{outline:3px solid var(--brand);outline-offset:4px;border-radius:4px}
+.excerpt{color:var(--muted);font-size:.98rem;margin:10px 0 18px}
+.meta{display:flex;align-items:center;gap:10px;font-size:.86rem;color:var(--muted);margin-top:auto}
+.av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--brand),#19c9a0);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.8rem;flex:none}
+.heart{margin-left:auto;color:#f0507a;font-size:1.1rem}
+.card.wide{grid-column:1/-1;flex-direction:row}
+.card.wide .cover{flex:1.1;height:auto;min-height:300px}
+.card.wide .cbody{flex:1;justify-content:center;padding:34px}
+.card.wide h3{font-size:1.9rem}
+.card.wide .meta{margin-top:6px}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:60px 0}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.card.wide{flex-direction:column}.card.wide .cover{min-height:200px;flex:none}}
+
+/* sections */
+.section{padding:80px 0 20px}
+.about{display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:38px;box-shadow:var(--shadow)}
+.me{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,var(--brand),#19c9a0);display:grid;place-items:center;color:#fff;font-family:var(--head);font-weight:800;font-size:3rem}
+.about p,.contact p{color:var(--muted);max-width:56ch;margin-bottom:.8em}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.form{display:grid;gap:12px}
+.form input,.form textarea{font:inherit;padding:14px 18px;border-radius:16px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+.form input:focus,.form textarea:focus{border-color:var(--brand);outline:none}
+.form textarea{min-height:130px;resize:vertical}
+.form .btn{justify-self:start;padding:13px 28px}
+@media(max-width:760px){.about,.contact{grid-template-columns:1fr}.about{padding:26px}}
+footer{padding:70px 0 50px;color:var(--muted);font-size:.9rem;text-align:center}
+
+/* reader */
+dialog{border:0;padding:0;background:var(--surface);color:var(--ink);width:min(740px,calc(100% - 24px));max-height:92vh;margin:auto;border-radius:26px;overflow:hidden}
+dialog::backdrop{background:rgba(8,10,34,.65);backdrop-filter:blur(4px)}
+dialog[open]{animation:pop .3s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(24px) scale(.97)}}
+.progress{height:5px;background:var(--line)}
+.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--brand),#19c9a0)}
+.reader{max-height:calc(92vh - 5px);overflow-y:auto}
+.reader .cover{height:190px}
+.close{position:absolute;right:16px;top:20px;z-index:2;background:rgba(255,255,255,.92);color:#10143a}
+.rbody{padding:30px 34px 40px}
+.rbody h2{font-family:var(--head);font-weight:800;font-size:clamp(1.6rem,5vw,2.3rem);line-height:1.15;letter-spacing:-.03em;margin-bottom:14px}
+.rbody .meta{margin-bottom:26px}
+.rbody p{font-family:var(--read);font-size:1.12rem;line-height:1.8;margin-bottom:1.1em}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.like[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink)}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,30px);background:var(--ink);color:var(--bg);font-weight:700;font-size:.9rem;padding:12px 22px;border-radius:99px;opacity:0;pointer-events:none;transition:.3s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="bar">
+      <a class="brand" href="#home"><span class="logo">✦</span>himanshu.blog</a>
+      <nav class="nav" id="nav" aria-label="Main">
+        <a href="#home">Home</a>
+        <a href="#posts">Blog</a>
+
+        <div class="nav-dropdown" id="services-dropdown">
+          <button type="button" class="dropdown-toggle" aria-expanded="false">
+            Services <span style="font-size: 0.75em;">▾</span>
+          </button>
+          <div class="dropdown-menu">
+            <a href="{% url 'service_detail' 'digital-marketing' %}">Digital Marketing</a>
+            <a href="{% url 'service_detail' 'seo' %}">SEO</a>
+            <a href="{% url 'service_detail' 'ppc' %}">PPC</a>
+            <a href="{% url 'service_detail' 'google-ads' %}">Google Ads</a>
+            <a href="{% url 'service_detail' 'meta-ads' %}">Meta Ads</a>
+            <a href="{% url 'service_detail' 'web-development' %}">Web Development</a>
+          </div>
+        </div>
+
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="right">
+        <button class="btn" id="theme" aria-label="Switch theme">Dark mode</button>
+        <button class="btn burger" id="burger" aria-expanded="false" aria-controls="nav">Menu</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" id="home">
+    <div class="orb o1"></div><div class="orb o2"></div>
+    <span class="hello">Welcome to my blog</span>
+    <h1>Notes on <span class="grad" id="typed"></span><span class="caret"></span></h1>
+    <p>Short, practical writing about security, Python and running a small business.</p>
+    <div class="stats">
+      <div><b id="s-posts">0</b><span>Posts</span></div>
+      <div><b id="s-tags">0</b><span>Topics</span></div>
+      <div><b id="s-likes">0</b><span>Liked by you</span></div>
+    </div>
+  </section>
+
+  <section id="posts">
+    <h2 class="sec-title">Latest posts</h2>
+    <div class="tools">
+      <input class="search" id="search" type="search" placeholder="Search posts…" aria-label="Search posts">
+      <div class="chips" id="chips"></div>
+    </div>
+    <div class="count" id="count" aria-live="polite"></div>
+    <div class="grid" id="list"></div>
+  </section>
+
+  <section class="section" id="about">
+    <h2 class="sec-title">About</h2>
+    <div class="about">
+      <div class="me">H</div>
+      <div>
+        <p>Hi, I’m Himanshu. I write about cybersecurity, Python and the practical side of running a small business.</p>
+        <p>This blog is where I keep what I learn, in plain language and without the jargon.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section" id="contact">
+  <h2 class="sec-title">Contact</h2>
+  <div class="contact">
+    <div>
+      <p>Have a question or a topic you want covered? Send me a message and I'll reply by email.</p>
+
+      <div class="contact-details" style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px;">
+        
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="width: 38px; height: 38px; border-radius: 10px; background: var(--chip); border: 1px solid var(--border); display: grid; place-items: center; flex-shrink: 0;">👤</span>
+          <div>
+            <span style="display: block; font-size: 0.78rem; color: var(--muted);">Owner</span>
+            <strong style="color: var(--ink);">Himanshu Yadav</strong>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="width: 38px; height: 38px; border-radius: 10px; background: var(--chip); border: 1px solid var(--border); display: grid; place-items: center; flex-shrink: 0;">📞</span>
+          <div>
+            <span style="display: block; font-size: 0.78rem; color: var(--muted);">Contact No.</span>
+            <a href="tel:+919621276475" style="color: var(--ink); text-decoration: none; font-weight: 700;">+91 9621276475</a>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="width: 38px; height: 38px; border-radius: 10px; background: var(--chip); border: 1px solid var(--border); display: grid; place-items: center; flex-shrink: 0;">✉️</span>
+          <div>
+            <span style="display: block; font-size: 0.78rem; color: var(--muted);">Email</span>
+            <a href="mailto:yadavhimanshu11358@gmail.com" style="color: var(--ink); text-decoration: none; font-weight: 700;">yadavhimanshu11358@gmail.com</a>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="width: 38px; height: 38px; border-radius: 10px; background: var(--chip); border: 1px solid var(--border); display: grid; place-items: center; flex-shrink: 0;">📍</span>
+          <div>
+            <span style="display: block; font-size: 0.78rem; color: var(--muted);">Location</span>
+            <strong style="color: var(--ink);">Mohali, Punjab</strong>
+          </div>
+        </div>
+
+      </div>
+      <!-- Success Message Dikhane Ke Liye -->
+      {% if messages %}
+        {% for message in messages %}
+          <p style="color: #4ade80; font-weight: 600; margin-top: 10px;">✅ {{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- Interactive & Dynamic Form Card -->
+<div class="form-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 26px; box-shadow: 0 20px 45px rgba(0,0,0,.25);">
+  <style>
+    .topic-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .topic-pill {
+      padding: 6px 13px; border-radius: 99px; border: 1px solid var(--border);
+      background: var(--chip); color: var(--muted); font-size: .82rem; font-weight: 700;
+      cursor: pointer; transition: all .2s ease;
+    }
+    .topic-pill:hover { color: var(--ink); border-color: var(--brand); }
+    .topic-pill.active { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); transform: translateY(-1px); }
+    #contact-form input:focus, #contact-form textarea:focus {
+      outline: none; border-color: var(--brand);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 25%, transparent);
+    }
+    .success-box { display: none; text-align: center; padding: 28px 14px; }
+    .success-box.show { display: block; animation: popIn .35s ease; }
+    @keyframes popIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
+  </style>
+
+  <form class="form" id="contact-form" method="POST" action="{% url 'home' %}">
+    {% csrf_token %}
+    <input type="hidden" name="topic" id="selected-topic" value="General Inquiry">
+
+    <!-- 1. Interactive Topic Selector Pills -->
+    <div>
+      <span style="display: block; font-size: .82rem; color: var(--muted); margin-bottom: 8px; font-weight: 600;">
+        Select a topic (auto-fills template):
+      </span>
+      <div class="topic-pills" id="topic-pills">
+        <button type="button" class="topic-pill active" data-topic="General Inquiry">💬 General</button>
+        <button type="button" class="topic-pill" data-topic="SEO">🚀 SEO</button>
+        <button type="button" class="topic-pill" data-topic="Google Ads">🎯 Google Ads</button>
+        <button type="button" class="topic-pill" data-topic="Meta Ads">📱 Meta Ads</button>
+        <button type="button" class="topic-pill" data-topic="Web Development">💻 Web Dev</button>
+      </div>
+    </div>
+
+    <input name="name" id="c-name" placeholder="Your name" aria-label="Your name" required>
+    <input name="email" id="c-email" type="email" placeholder="Your email" aria-label="Your email" required>
+
+    <!-- 2. Message Box + Live Counter -->
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <textarea name="message" id="c-msg" maxlength="500" placeholder="Your message" aria-label="Your message" required></textarea>
+      <div style="display: flex; justify-content: space-between; font-size: .78rem; color: var(--muted); padding: 0 4px;">
+        <span id="form-hint">Click any pill above for a quick message</span>
+        <span id="char-count">0 / 500</span>
+      </div>
+    </div>
+
+    <button class="btn primary" id="submit-btn" type="submit" style="width: 100%; justify-content: center;">
+      Send message ➔
+    </button>
+  </form>
+
+  <!-- 3. Dynamic Animated Success Card (Submit ke baad dikhega) -->
+  <div class="success-box" id="contact-success">
+    <div style="width: 54px; height: 54px; margin: 0 auto 14px; border-radius: 50%; background: rgba(74,222,128,.16); color: #4ade80; font-size: 1.5rem; display: grid; place-items: center;">✓</div>
+    <h3 style="margin-bottom: 8px; font-size: 1.25rem;">Message Sent, <span id="sender-name">Friend</span>!</h3>
+    <p style="color: var(--muted); font-size: .92rem; margin-bottom: 18px;">
+      Thank you for reaching out. Himanshu will review your inquiry and reply to your email shortly.
+    </p>
+    <button type="button" class="btn" id="reset-contact-btn">Send Another Message</button>
+  </div>
+</div>
+  </div>
+</section>
+</main>
+
+<footer>© <span id="year"></span> Himanshu. Built with Python.</footer>
+
+<dialog id="reader" aria-label="Post reader">
+  <div class="progress"><div id="bar"></div></div>
+  <div class="reader" id="r-scroll">
+    <button class="btn close" id="close">Close</button>
+    <div id="r-body"></div>
+  </div>
+</dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ---- 1. POSTS: Django Database se live posts laane ke liye ---- */
+const POSTS = [
+  {% for post in posts %}
+  {
+    id: {{ post.id }},
+    title: "{{ post.title|escapejs }}",
+    date: "{{ post.created_at|date:'Y-m-d' }}",
+    author: "{{ post.author.username|escapejs }}",
+    tag: "{{ post.category|escapejs }}",
+    body: "{{ post.content|escapejs }}".split(/\r?\n+/).filter(Boolean)
+  }{% if not forloop.last %},{% endif %}
+  {% endfor %}
+];
+
+/* cover art (CSS/SVG, koi image file nahi chahiye) */
+const ART = {
+  Security:['#6b4dff','#1a1f78','<circle cx="340" cy="40" r="90" fill="#fff" opacity=".08"/><circle cx="60" cy="210" r="70" fill="#fff" opacity=".08"/><path d="M200 48 L262 72 V126 C262 166 234 190 200 204 C166 190 138 166 138 126 V72 Z" fill="#fff" fill-opacity=".16" stroke="#fff" stroke-width="3"/><path d="M174 124 l20 20 l36 -42" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>'],
+  Python:['#1fd5a8','#0b5f9a','<rect x="70" y="120" width="70" height="70" rx="16" fill="#fff" opacity=".2"/><rect x="150" y="80" width="70" height="110" rx="16" fill="#fff" opacity=".32"/><rect x="230" y="40" width="70" height="150" rx="16" fill="#fff" opacity=".5"/><circle cx="342" cy="190" r="26" fill="#fff" opacity=".2"/>'],
+  Business:['#ffbb3b','#f0507a','<rect x="80" y="140" width="46" height="60" rx="10" fill="#fff" opacity=".3"/><rect x="146" y="105" width="46" height="95" rx="10" fill="#fff" opacity=".45"/><rect x="212" y="70" width="46" height="130" rx="10" fill="#fff" opacity=".6"/><rect x="278" y="35" width="46" height="165" rx="10" fill="#fff" opacity=".8"/>']
+};
+const art = (p, s = "") => {
+  const [a, b, shapes] = ART[p.tag] || ART.Security, id = "g" + p.id + s;
+  return `<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="400" height="240" fill="url(#${id})"/>${shapes}</svg>`;
+};
+
+const $ = s => document.querySelector(s);
+const fmt = d => new Date(d).toLocaleDateString("en-GB", {day:"numeric", month:"short", year:"numeric"});
+const readTime = p => Math.max(1, Math.round(p.body.join(" ").split(/\s+/).length / 200));
+const store = {get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let activeTag = "All", query = "", current = null;
+const likes = JSON.parse(store.get("likes") || "[]");
+
+/* theme */
+function setTheme(t){
+  document.documentElement.dataset.theme = t;
+  $("#theme").textContent = t === "dark" ? "Light mode" : "Dark mode";
+  store.set("theme", t);
+}
+setTheme(store.get("theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+$("#theme").onclick = () => setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+
+/* typing headline */
+(function(){
+  const words = ["security.", "Python.", "small business.", "things I learned."], el = $("#typed");
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches){ el.textContent = words[0]; return; }
+  let w = 0, c = 0, del = false;
+  (function tick(){
+    const word = words[w];
+    el.textContent = word.slice(0, c);
+    if (!del && c === word.length){ del = true; return setTimeout(tick, 1400); }
+    if (del && c === 0){ del = false; w = (w + 1) % words.length; }
+    c += del ? -1 : 1;
+    setTimeout(tick, del ? 40 : 85);
+  })();
+})();
+
+/* stats */
+function renderStats(){
+  $("#s-posts").textContent = POSTS.length;
+  $("#s-tags").textContent = new Set(POSTS.map(p => p.tag)).size;
+  $("#s-likes").textContent = likes.length;
+}
+
+/* chips + search */
+function renderChips(){
+  const tags = ["All", ...new Set(POSTS.map(p => p.tag))];
+  $("#chips").innerHTML = tags.map(t => `<button class="chip" aria-pressed="${t === activeTag}" data-tag="${t}">${t}</button>`).join("");
+}
+$("#chips").onclick = e => { const b = e.target.closest(".chip"); if (b){ activeTag = b.dataset.tag; renderChips(); renderList(); } };
+$("#search").oninput = e => { query = e.target.value.trim().toLowerCase(); renderList(); };
+
+/* cards */
+function renderList(){
+  const items = POSTS.filter(p => (activeTag === "All" || p.tag === activeTag) && (p.title + " " + p.body.join(" ")).toLowerCase().includes(query));
+  const plain = !query && activeTag === "All";
+  $("#count").textContent = items.length + (items.length === 1 ? " post" : " posts");
+  $("#list").innerHTML = items.length ? items.map((p, i) => `
+    <article class="card ${i === 0 && plain ? "wide" : ""}" data-id="${p.id}">
+      <div class="cover">${art(p)}<span class="tag">${p.tag}</span></div>
+      <div class="cbody">
+        <h3><button>${p.title}</button></h3>
+        <p class="excerpt">${(p.body[0] || "").slice(0, 120)}…</p>
+        <div class="meta"><span class="av">${p.author[0].toUpperCase()}</span><span>${p.author} · ${fmt(p.date)} · ${readTime(p)} min read</span>${likes.includes(p.id) ? '<span class="heart" aria-label="Liked">♥</span>' : ""}</div>
+      </div>
+    </article>`).join("")
+    : `<div class="empty">No posts match “${query.replace(/[<>&]/g, "")}”. Try another word or choose All.</div>`;
+  renderStats();
+}
+$("#list").onclick = e => { const a = e.target.closest(".card"); if (a) openPost(+a.dataset.id); };
+
+/* reader */
+const dlg = $("#reader"), body = $("#r-body"), scroller = $("#r-scroll");
+function openPost(id){
+  current = POSTS.find(p => p.id === id);
+  body.innerHTML = `
+    <div class="cover">${art(current, "m")}</div>
+    <div class="rbody">
+      <h2>${current.title}</h2>
+      <div class="meta"><span class="av">${current.author[0].toUpperCase()}</span><span>${current.author} · ${fmt(current.date)} · ${readTime(current)} min read</span></div>
+      ${current.body.map(t => `<p>${t}</p>`).join("")}
+      <div class="actions">
+        <button class="btn like" id="like" aria-pressed="${likes.includes(id)}">${likes.includes(id) ? "Liked" : "Like this post"}</button>
+        <button class="btn" id="share">Copy link</button>
+      </div>
+    </div>`;
+  scroller.scrollTop = 0; $("#bar").style.width = "0";
+  dlg.showModal();
+  history.replaceState(null, "", "#post-" + id);
+}
+scroller.addEventListener("scroll", () => {
+  const max = scroller.scrollHeight - scroller.clientHeight;
+  $("#bar").style.width = (max > 0 ? scroller.scrollTop / max * 100 : 100) + "%";
+});
+body.addEventListener("click", e => {
+  if (e.target.id === "like"){
+    const i = likes.indexOf(current.id);
+    i > -1 ? likes.splice(i, 1) : likes.push(current.id);
+    store.set("likes", JSON.stringify(likes));
+    e.target.setAttribute("aria-pressed", likes.includes(current.id));
+    e.target.textContent = likes.includes(current.id) ? "Liked" : "Like this post";
+    renderList();
+  }
+  if (e.target.id === "share"){
+    (navigator.clipboard ? navigator.clipboard.writeText(location.href) : Promise.reject())
+      .then(() => toast("Link copied"), () => toast("Copy the link from the address bar"));
+  }
+});
+$("#close").onclick = () => dlg.close();
+dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+dlg.addEventListener("close", () => history.replaceState(null, "", location.pathname));
+function toast(msg){ const t = $("#toast"); t.textContent = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 1800); }
+
+/* navbar */
+const nav = $("#nav"), burger = $("#burger");
+function closeMenu(){ nav.classList.remove("open"); burger.textContent = "Menu"; burger.setAttribute("aria-expanded", "false"); }
+burger.onclick = () => { const o = nav.classList.toggle("open"); burger.textContent = o ? "Close" : "Menu"; burger.setAttribute("aria-expanded", o); };
+function goTo(e){
+  const a = e.target.closest("a"); if (!a) return;
+  const id = a.getAttribute("href");
+  if (!id || !id.startsWith("#")) return; // Naye page ke links ko normal khulne dega
+  e.preventDefault();
+  id === "#home" ? scrollTo({top:0, behavior:"smooth"}) : document.querySelector(id).scrollIntoView({behavior:"smooth"});
+  closeMenu();
+}
+nav.addEventListener("click", goTo);
+document.querySelector(".brand").addEventListener("click", goTo);
+const navLinks = [...nav.querySelectorAll(":scope > a")];
+const spy = new IntersectionObserver(es => es.forEach(en => {
+  if (en.isIntersecting) navLinks.forEach(l => l.classList.toggle("active", l.getAttribute("href") === "#" + en.target.id));
+}), {rootMargin:"-40% 0px -55% 0px"});
+["home", "posts", "about", "contact"].forEach(id => spy.observe(document.getElementById(id)));
+
+/* Services Dropdown Toggle & Auto-Fill Contact Form */
+// const srvDrop = document.getElementById("services-dropdown");
+// if (srvDrop) {
+//   srvDrop.querySelector(".dropdown-toggle").addEventListener("click", (e) => {
+//     e.stopPropagation();
+//     srvDrop.classList.toggle("open");
+//   });
+
+//   srvDrop.querySelectorAll(".dropdown-menu a").forEach(link => {
+//     link.addEventListener("click", () => {
+//       const serviceName = link.dataset.service;
+//       const msgBox = document.querySelector('#contact-form textarea[name="message"]');
+//       if (msgBox && serviceName) {
+//         msgBox.value = `Hi Himanshu, I am interested in your ${serviceName} service. Please share more details.`;
+//       }
+//       srvDrop.classList.remove("open");
+//     });
+//   });
+
+//   document.addEventListener("click", (e) => {
+//     if (!srvDrop.contains(e.target)) srvDrop.classList.remove("open");
+//   });
+// }
+/* Services Dropdown Toggle */
+const srvDrop = document.getElementById("services-dropdown");
+if (srvDrop) {
+  srvDrop.querySelector(".dropdown-toggle").addEventListener("click", (e) => {
+    e.stopPropagation();
+    srvDrop.classList.toggle("open");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!srvDrop.contains(e.target)) srvDrop.classList.remove("open");
+  });
+}
+
+/* 2. Contact Form: AJAX (fetch) se bina page reload hue Django database mein save karega */
+/* Dynamic & Interactive Contact Form */
+const cForm = document.getElementById("contact-form");
+const cSuccess = document.getElementById("contact-success");
+const cMsg = document.getElementById("c-msg");
+const charCount = document.getElementById("char-count");
+const topicInput = document.getElementById("selected-topic");
+const submitBtn = document.getElementById("submit-btn");
+
+const TEMPLATES = {
+  "General Inquiry": "",
+  "SEO": "Hi Himanshu, I want to improve my website's Google ranking and organic traffic through SEO.",
+  "Google Ads": "Hi Himanshu, I'm looking to run high-converting Google Ads campaigns for my business.",
+  "Meta Ads": "Hi Himanshu, I need help scaling leads/sales using Facebook & Instagram (Meta) Ads.",
+  "Web Development": "Hi Himanshu, I want to build a modern, fast website for my business. Let's discuss!"
+};
+
+document.querySelectorAll("#topic-pills .topic-pill").forEach(pill => {
+  pill.addEventListener("click", () => {
+    document.querySelectorAll("#topic-pills .topic-pill").forEach(p => p.classList.remove("active"));
+    pill.classList.add("active");
+    const topic = pill.dataset.topic;
+    topicInput.value = topic;
+    if (TEMPLATES[topic] !== undefined) {
+      cMsg.value = TEMPLATES[topic];
+      charCount.textContent = `${cMsg.value.length} / 500`;
+      cMsg.focus();
+    }
+  });
+});
+
+if (cMsg) {
+  cMsg.addEventListener("input", () => {
+    charCount.textContent = `${cMsg.value.length} / 500`;
+  });
+}
+
+if (cForm) {
+  cForm.addEventListener("submit", async e => {
+    e.preventDefault();
+    const senderName = document.getElementById("c-name").value.trim();
+    const formData = new FormData(cForm);
+    formData.set("message", `[${topicInput.value}] ${cMsg.value}`);
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+
+    try {
+      const response = await fetch(cForm.action || window.location.pathname, {
+        method: "POST",
+        body: formData,
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+      });
+
+      if (response.ok) {
+        document.getElementById("sender-name").textContent = senderName || "Friend";
+        cForm.style.display = "none";
+        cSuccess.classList.add("show");
+        cForm.reset();
+        charCount.textContent = "0 / 500";
+        toast("Message sent successfully!");
+      } else {
+        toast("Error sending message. Try again.");
+      }
+    } catch (err) {
+      toast("Network error. Check server.");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send message ➔";
+    }
+  });
+}
+
+const resetBtn = document.getElementById("reset-contact-btn");
+if (resetBtn) {
+  resetBtn.addEventListener("click", () => {
+    cSuccess.classList.remove("show");
+    cForm.style.display = "flex";
+  });
+}
+
+$("#year").textContent = new Date().getFullYear();
+renderChips(); renderList();
+const m = location.hash.match(/^#post-(\d+)$/); if (m && POSTS.some(p => p.id === +m[1])) openPost(+m[1]);
+</script>
+</body>
+</html>
