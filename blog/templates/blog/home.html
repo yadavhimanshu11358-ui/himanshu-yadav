@@ -59,39 +59,6 @@
       --link-color: #4f46e5;
     }
 
-    /* Mobile Navbar & Quick Message Fix */
-@media (max-width: 768px) {
-  header, nav, .navbar {
-    padding: 10px 14px !important;
-    flex-wrap: wrap !important;
-    gap: 8px !important;
-  }
-
-  .nav-links, nav ul {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 8px 12px !important;
-    font-size: 13px !important;
-    width: 100% !important;
-    padding-top: 6px !important;
-  }
-
-  .quick-message,
-  #quick-message,
-  a[href*="quick"],
-  button[class*="quick"] {
-    bottom: 16px !important;
-    right: 16px !important;
-    padding: 10px 14px !important;
-    font-size: 13px !important;
-    border-radius: 50px !important;
-    z-index: 9999 !important;
-    max-width: calc(100vw - 32px) !important;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35) !important;
-  }
-}
-
     * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -316,11 +283,97 @@
 
     footer { text-align: center; padding: 36px 20px; color: var(--muted); font-size: 0.88rem; }
 
+    /* Desktop par Hamburger button chhupa rahega */
+    #mobileMenuBtn {
+      display: none;
+    }
+
     @media (max-width: 920px) {
       .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; }
       .services-grid, .projects-bento { grid-template-columns: repeat(2, 1fr); }
       .proj-card.featured { grid-column: span 2; }
     }
+
+    /* Sirf Mobile Screen (768px ya kam) ke liye Hamburger & Quick Message */
+    @media (max-width: 768px) {
+      .nav-wrap {
+        padding: 12px 16px;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #mobileMenuBtn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--tile-bg);
+        border: 1px solid var(--border);
+        color: var(--heading);
+        font-size: 1.25rem;
+        padding: 6px 12px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      #mainNav {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        margin-top: 10px;
+        padding: 14px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        gap: 8px;
+        box-shadow: var(--shadow);
+      }
+
+      #mainNav.open {
+        display: flex;
+      }
+
+      #mainNav > a,
+      #mainNav .drop-btn,
+      #mainNav .theme-btn {
+        width: 100%;
+        justify-content: space-between;
+        text-align: left;
+        padding: 9px 12px;
+        border-radius: 8px;
+      }
+
+      #mainNav .dropdown-menu {
+        position: static;
+        width: 100%;
+        margin-top: 6px;
+        box-shadow: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        display: none;
+      }
+
+      #mainNav .dropdown.open .dropdown-menu {
+        display: block;
+      }
+
+      /* Mobile Quick Message Floating Button Fix */
+      .chat-launcher {
+        bottom: 14px !important;
+        right: 14px !important;
+        padding: 10px 15px !important;
+        font-size: 0.82rem !important;
+      }
+
+      .chat-popup {
+        bottom: 66px !important;
+        right: 14px !important;
+        width: calc(100vw - 28px) !important;
+        max-width: 340px !important;
+      }
+    }
+
     @media (max-width: 620px) {
       .services-grid, .projects-bento, .form-row-2, .hero-bento { grid-template-columns: 1fr; }
       .bento-tile.wide, .proj-card.featured { grid-column: span 1; }
@@ -332,7 +385,8 @@
   <header>
     <div class="nav-wrap">
       <a href="{% url 'home' %}" class="brand">Himanshu<span>.dev</span></a>
-      <nav>
+      <button type="button" id="mobileMenuBtn" aria-label="Toggle Menu">☰</button>
+      <nav id="mainNav">
         <a href="#home">Home</a>
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
@@ -362,7 +416,7 @@
     <section class="section hero-grid" id="home">
       <div>
         <span class="hero-badge">● Python Developer • Cybersecurity • Growth Marketer</span>
-        <h1>Building Secure Web Apps &amp; <span>Scalable Growth Engines</span>.</h1>
+        <h1>Building Secure Web Apps <span>Scalable Growth Engines</span>.</h1>
         <p>
           I help startups and small businesses build fast, secure Django websites and acquire high-intent customers through SEO, Google Ads, and Meta Ads.
         </p>
@@ -453,7 +507,6 @@
       </div>
 
       <div class="projects-bento">
-        <!-- Featured Wide Card -->
         <div class="proj-card featured">
           <div>
             <div class="srv-top">
@@ -480,7 +533,6 @@
           </a>
         </div>
 
-        <!-- Card 2 -->
         <div class="proj-card">
           <div>
             <div class="srv-top">
@@ -506,7 +558,6 @@
           </a>
         </div>
 
-        <!-- Card 3 -->
         <div class="proj-card">
           <div>
             <div class="srv-top">
@@ -533,7 +584,6 @@
           </a>
         </div>
 
-        <!-- Card 4: Growth Case Study -->
         <div class="proj-card featured">
           <div>
             <div class="srv-top">
@@ -654,104 +704,7 @@
     © 2026 Himanshu Yadav • Mohali, Punjab, India • Built with Django
   </footer>
 
-  <script>
-    // Dark / Light Mode Sync
-    const themeToggle = document.getElementById('themeToggle');
-    function applyTheme(mode) {
-      if (mode === 'light') {
-        document.body.classList.add('light-mode');
-        themeToggle.textContent = '🌙 Dark';
-      } else {
-        document.body.classList.remove('light-mode');
-        themeToggle.textContent = '☀️ Light';
-      }
-    }
-    applyTheme(localStorage.getItem('siteTheme') || 'dark');
-    themeToggle.addEventListener('click', () => {
-      const next = document.body.classList.contains('light-mode') ? 'dark' : 'light';
-      localStorage.setItem('siteTheme', next);
-      applyTheme(next);
-    });
-
-    // Dropdown Toggle
-    const dropWrap = document.getElementById('servicesDropdown');
-    document.getElementById('dropToggle').addEventListener('click', (e) => {
-      e.stopPropagation();
-      dropWrap.classList.toggle('open');
-    });
-    document.addEventListener('click', () => dropWrap.classList.remove('open'));
-
-    // Service Filter
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const srvCards = document.querySelectorAll('.srv-card');
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const cat = btn.getAttribute('data-cat');
-        srvCards.forEach(card => {
-          card.style.display = (cat === 'all' || card.getAttribute('data-category') === cat) ? 'flex' : 'none';
-        });
-      });
-    });
-
-    // Topic Pills
-    const pills = document.querySelectorAll('.pill-btn');
-    const msgField = document.getElementById('msgField');
-    const charCount = document.getElementById('charCount');
-    pills.forEach(btn => {
-      btn.addEventListener('click', () => {
-        pills.forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        msgField.value = btn.getAttribute('data-msg');
-        charCount.textContent = `${msgField.value.length} / 500`;
-        msgField.focus();
-      });
-    });
-    msgField.addEventListener('input', () => {
-      charCount.textContent = `${msgField.value.length} / 500`;
-    });
-
-    // AJAX Form
-    const form = document.getElementById('ajaxContactForm');
-    const statusBox = document.getElementById('ajaxStatus');
-    const submitBtn = document.getElementById('submitBtn');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      submitBtn.textContent = 'Sending...';
-      submitBtn.disabled = true;
-      try {
-        const res = await fetch("{% url 'home' %}", {
-          method: 'POST',
-          headers: { 'X-Requested-With': 'XMLHttpRequest' },
-          body: new FormData(form)
-        });
-        const data = await res.json();
-        statusBox.style.display = 'block';
-        statusBox.textContent = data.message;
-        if (data.status === 'success') {
-          form.reset();
-          charCount.textContent = '0 / 500';
-          pills.forEach(p => p.classList.remove('active'));
-        }
-      } catch (err) {
-        statusBox.style.display = 'block';
-        statusBox.textContent = 'Message sent! Thank you.';
-      } finally {
-        submitBtn.textContent = 'Send Message ➔';
-        submitBtn.disabled = false;
-      }
-    });
-  </script>
-
-  <!-- Floating WhatsApp Button
-  <a href="https://wa.me/919621276475?text=Hi%20Himanshu%2C%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project."
-     target="_blank"
-     title="Chat on WhatsApp"
-     style="position: fixed; bottom: 24px; right: 24px; z-index: 1500; background: #10b981; color: #fff; text-decoration: none; padding: 12px 18px; border-radius: 999px; font-weight: 700; font-size: 0.9rem; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35); display: inline-flex; align-items: center; gap: 8px;">
-    💬 WhatsApp
-  </a> -->
-  <!-- Interactive Floating Chat Widget (No App Redirect Required) -->
+  <!-- Interactive Floating Chat Widget -->
   <style>
     .chat-launcher {
       position: fixed; bottom: 24px; right: 24px; z-index: 1600;
@@ -847,6 +800,112 @@
   </div>
 
   <script>
+    // Mobile Hamburger Menu Script
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const mainNav = document.getElementById('mainNav');
+    if (menuBtn && mainNav) {
+      menuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mainNav.classList.toggle('open');
+        menuBtn.textContent = mainNav.classList.contains('open') ? '✕' : '☰';
+      });
+      mainNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mainNav.classList.remove('open');
+          menuBtn.textContent = '☰';
+        });
+      });
+    }
+
+    // Dark / Light Mode Sync
+    const themeToggle = document.getElementById('themeToggle');
+    function applyTheme(mode) {
+      if (mode === 'light') {
+        document.body.classList.add('light-mode');
+        themeToggle.textContent = '🌙 Dark';
+      } else {
+        document.body.classList.remove('light-mode');
+        themeToggle.textContent = '☀️ Light';
+      }
+    }
+    applyTheme(localStorage.getItem('siteTheme') || 'dark');
+    themeToggle.addEventListener('click', () => {
+      const next = document.body.classList.contains('light-mode') ? 'dark' : 'light';
+      localStorage.setItem('siteTheme', next);
+      applyTheme(next);
+    });
+
+    // Dropdown Toggle
+    const dropWrap = document.getElementById('servicesDropdown');
+    document.getElementById('dropToggle').addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropWrap.classList.toggle('open');
+    });
+    document.addEventListener('click', () => dropWrap.classList.remove('open'));
+
+    // Service Filter
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const srvCards = document.querySelectorAll('.srv-card');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.getAttribute('data-cat');
+        srvCards.forEach(card => {
+          card.style.display = (cat === 'all' || card.getAttribute('data-category') === cat) ? 'flex' : 'none';
+        });
+      });
+    });
+
+    // Topic Pills
+    const pills = document.querySelectorAll('.pill-btn');
+    const msgField = document.getElementById('msgField');
+    const charCount = document.getElementById('charCount');
+    pills.forEach(btn => {
+      btn.addEventListener('click', () => {
+        pills.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        msgField.value = btn.getAttribute('data-msg');
+        charCount.textContent = `${msgField.value.length} / 500`;
+        msgField.focus();
+      });
+    });
+    msgField.addEventListener('input', () => {
+      charCount.textContent = `${msgField.value.length} / 500`;
+    });
+
+    // AJAX Form
+    const form = document.getElementById('ajaxContactForm');
+    const statusBox = document.getElementById('ajaxStatus');
+    const submitBtn = document.getElementById('submitBtn');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.textContent = 'Sending...';
+      submitBtn.disabled = true;
+      try {
+        const res = await fetch("{% url 'home' %}", {
+          method: 'POST',
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+          body: new FormData(form)
+        });
+        const data = await res.json();
+        statusBox.style.display = 'block';
+        statusBox.textContent = data.message;
+        if (data.status === 'success') {
+          form.reset();
+          charCount.textContent = '0 / 500';
+          pills.forEach(p => p.classList.remove('active'));
+        }
+      } catch (err) {
+        statusBox.style.display = 'block';
+        statusBox.textContent = 'Message sent! Thank you.';
+      } finally {
+        submitBtn.textContent = 'Send Message ➔';
+        submitBtn.disabled = false;
+      }
+    });
+
+    // Quick Message Widget
     const chatToggleBtn = document.getElementById('chatToggleBtn');
     const chatPopup = document.getElementById('chatPopup');
     const chatCloseBtn = document.getElementById('chatCloseBtn');

@@ -14,11 +14,14 @@
       --surface-hover: rgba(25, 35, 68, 0.94);
       --tile-bg: rgba(7, 11, 25, 0.78);
       --border: rgba(99, 102, 241, 0.25);
+      --shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
       --text: #e2e8f0;
       --heading: #ffffff;
       --muted: #94a3b8;
       --accent: #6366f1;
       --accent2: #2dd4bf;
+      --status-bg: rgba(16, 185, 129, 0.14);
+      --status-text: #34d399;
     }
 
     body.light-mode {
@@ -30,43 +33,13 @@
       --surface-hover: #f8fafc;
       --tile-bg: #f1f5f9;
       --border: rgba(99, 102, 241, 0.22);
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
       --text: #1e293b;
       --heading: #0f172a;
       --muted: #475569;
+      --status-bg: #ecfdf5;
+      --status-text: #059669;
     }
-
-    /* Mobile Navbar & Quick Message Fix */
-@media (max-width: 768px) {
-  header, nav, .navbar {
-    padding: 10px 14px !important;
-    flex-wrap: wrap !important;
-    gap: 8px !important;
-  }
-
-  .nav-links, nav ul {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 8px 12px !important;
-    font-size: 13px !important;
-    width: 100% !important;
-    padding-top: 6px !important;
-  }
-
-  .quick-message,
-  #quick-message,
-  a[href*="quick"],
-  button[class*="quick"] {
-    bottom: 16px !important;
-    right: 16px !important;
-    padding: 10px 14px !important;
-    font-size: 13px !important;
-    border-radius: 50px !important;
-    z-index: 9999 !important;
-    max-width: calc(100vw - 32px) !important;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35) !important;
-  }
-}
 
     * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
     body {
@@ -96,6 +69,7 @@
     nav > a, .drop-btn {
       color: var(--text); text-decoration: none; font-size: 0.94rem; font-weight: 500;
       background: none; border: none; cursor: pointer; font-family: inherit; transition: 0.2s;
+      display: inline-flex; align-items: center; gap: 5px;
     }
     nav > a:hover, .drop-btn:hover { color: #38bdf8; }
 
@@ -224,11 +198,178 @@
       border-radius: 22px; padding: 32px;
     }
 
+    /* Floating Chat Widget */
+    .chat-launcher {
+      position: fixed; bottom: 24px; right: 24px; z-index: 1600;
+      background: linear-gradient(135deg, #10b981, #059669); color: #fff;
+      border: none; padding: 13px 20px; border-radius: 999px;
+      font-weight: 700; font-size: 0.92rem; cursor: pointer;
+      box-shadow: 0 12px 28px rgba(16, 185, 129, 0.35);
+      display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s;
+    }
+    .chat-launcher:hover { transform: translateY(-3px); }
+
+    .chat-popup {
+      position: fixed; bottom: 84px; right: 24px; width: 340px; max-width: calc(100vw - 48px);
+      background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.45); z-index: 1600;
+      overflow: hidden; display: none; flex-direction: column;
+    }
+    .chat-popup.open { display: flex; animation: popIn 0.2s ease; }
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .chat-head {
+      background: linear-gradient(135deg, #059669, #0d9488); color: #fff;
+      padding: 16px 18px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .chat-head-info strong { display: block; font-size: 0.98rem; }
+    .chat-head-info span { font-size: 0.76rem; opacity: 0.9; }
+    .chat-close {
+      background: rgba(255,255,255,0.18); border: none; color: #fff;
+      width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 0.95rem;
+    }
+    .chat-body { padding: 16px; display: grid; gap: 11px; }
+    .chat-bubble {
+      background: var(--tile-bg); border: 1px solid var(--border);
+      padding: 10px 13px; border-radius: 14px 14px 14px 4px;
+      font-size: 0.85rem; color: var(--text);
+    }
+    .chat-body input, .chat-body textarea {
+      width: 100%; background: var(--tile-bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 12px; color: var(--heading);
+      font-size: 0.88rem; font-family: inherit;
+    }
+    .chat-body input:focus, .chat-body textarea:focus { outline: none; border-color: #10b981; }
+    .chat-send-btn {
+      background: #10b981; color: #fff; border: none; padding: 10px 14px;
+      border-radius: 10px; font-weight: 700; font-size: 0.9rem; cursor: pointer; width: 100%;
+    }
+    .chat-send-btn:hover { background: #059669; }
+    .chat-status {
+      display: none; font-size: 0.82rem; font-weight: 600; padding: 9px 12px;
+      border-radius: 10px; background: var(--status-bg); color: var(--status-text);
+    }
+    .chat-foot {
+      padding: 10px 16px; border-top: 1px solid var(--border); text-align: center;
+      font-size: 0.76rem; color: var(--muted);
+    }
+    .chat-foot a { color: #10b981; text-decoration: none; font-weight: 600; }
+
+    /* Desktop par Hamburger button chhupa rahega */
+    #mobileMenuBtn {
+      display: none;
+    }
+
     @media (max-width: 940px) {
       .blog-hero, .controls-bar { grid-template-columns: 1fr; }
       .posts-grid { grid-template-columns: repeat(2, 1fr); }
       .posts-grid:not(.list-mode) .post-card:first-child { grid-column: span 2; }
     }
+
+    /* Sirf Mobile Screen (768px ya kam) ke liye Hamburger & Quick Message */
+    @media (max-width: 768px) {
+      .nav-wrap {
+        padding: 12px 16px;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #mobileMenuBtn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--tile-bg);
+        border: 1px solid var(--border);
+        color: var(--heading);
+        font-size: 1.25rem;
+        padding: 6px 12px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      #mainNav {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        margin-top: 10px;
+        padding: 14px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        gap: 8px;
+        box-shadow: var(--shadow);
+      }
+
+      #mainNav.open {
+        display: flex;
+      }
+
+      #mainNav > a,
+      #mainNav .drop-btn,
+      #mainNav .theme-btn {
+        width: 100%;
+        justify-content: space-between;
+        text-align: left;
+        padding: 9px 12px;
+        border-radius: 8px;
+      }
+
+      #mainNav .dropdown-menu {
+        position: static;
+        width: 100%;
+        margin-top: 6px;
+        box-shadow: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        display: none;
+      }
+
+      #mainNav .dropdown.open .dropdown-menu {
+        display: block;
+      }
+
+      /* Mobile Quick Message Button & Popup */
+      .chat-launcher {
+        bottom: 16px !important;
+        right: 16px !important;
+        padding: 11px 16px !important;
+        font-size: 0.84rem !important;
+        border-radius: 999px !important;
+        box-shadow: 0 8px 22px rgba(16, 185, 129, 0.4) !important;
+        z-index: 1600 !important;
+      }
+
+      .chat-popup {
+        bottom: 70px !important;
+        right: 12px !important;
+        left: 12px !important;
+        width: auto !important;
+        max-width: 100% !important;
+        max-height: 78vh !important;
+        overflow-y: auto !important;
+        border-radius: 16px !important;
+      }
+
+      .chat-head {
+        padding: 12px 14px !important;
+      }
+
+      .chat-body {
+        padding: 12px !important;
+        gap: 9px !important;
+      }
+
+      .chat-body input,
+      .chat-body textarea {
+        font-size: 16px !important;
+        padding: 9px 11px !important;
+      }
+    }
+
     @media (max-width: 640px) {
       .posts-grid { grid-template-columns: 1fr; }
       .posts-grid:not(.list-mode) .post-card:first-child { grid-column: span 1; }
@@ -240,7 +381,8 @@
   <header>
     <div class="nav-wrap">
       <a href="{% url 'home' %}" class="brand">Himanshu<span>.dev</span></a>
-      <nav>
+      <button type="button" id="mobileMenuBtn" aria-label="Toggle Menu">☰</button>
+      <nav id="mainNav">
         <a href="{% url 'home' %}#home">Home</a>
         <a href="{% url 'home' %}#about">About</a>
 
@@ -380,8 +522,57 @@
     </div>
   </div>
 
+  <!-- Floating Quick Message Button -->
+  <button type="button" class="chat-launcher" id="chatToggleBtn">
+    💬 Quick Message
+  </button>
+
+  <!-- Inline Chat Box -->
+  <div class="chat-popup" id="chatPopup">
+    <div class="chat-head">
+      <div class="chat-head-info">
+        <strong>Himanshu Yadav</strong>
+        <span>● Typically replies within a few hours</span>
+      </div>
+      <button type="button" class="chat-close" id="chatCloseBtn">✕</button>
+    </div>
+
+    <form id="widgetChatForm" class="chat-body">
+      {% csrf_token %}
+      <div class="chat-bubble">
+        👋 Hi! Send me a direct message right here—no need to leave this page.
+      </div>
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email or Phone" required />
+      <textarea name="message" rows="3" placeholder="Type your message here..." required></textarea>
+      <button type="submit" class="chat-send-btn" id="widgetSendBtn">Send Direct Message ➔</button>
+      <div class="chat-status" id="widgetStatus"></div>
+    </form>
+
+    <div class="chat-foot">
+      Prefer WhatsApp app? <a href="https://wa.me/919621276475?text=Hi%20Himanshu%2C%20I%20visited%20your%20portfolio." target="_blank">Open WhatsApp ↗</a>
+    </div>
+  </div>
+
   <script>
-    // Dark / Light Mode Toggle (Saved in localStorage)
+    // Mobile Hamburger Menu Script
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const mainNav = document.getElementById('mainNav');
+    if (menuBtn && mainNav) {
+      menuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mainNav.classList.toggle('open');
+        menuBtn.textContent = mainNav.classList.contains('open') ? '✕' : '☰';
+      });
+      mainNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mainNav.classList.remove('open');
+          menuBtn.textContent = '☰';
+        });
+      });
+    }
+
+    // Dark / Light Mode Toggle
     const themeToggle = document.getElementById('themeToggle');
     function applyTheme(mode) {
       if (mode === 'light') {
@@ -492,6 +683,42 @@
     });
     document.getElementById('closeModal').addEventListener('click', () => modal.classList.remove('show'));
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
+
+    // Quick Message Widget
+    const chatToggleBtn = document.getElementById('chatToggleBtn');
+    const chatPopup = document.getElementById('chatPopup');
+    const chatCloseBtn = document.getElementById('chatCloseBtn');
+
+    chatToggleBtn.addEventListener('click', () => chatPopup.classList.toggle('open'));
+    chatCloseBtn.addEventListener('click', () => chatPopup.classList.remove('open'));
+
+    const widgetForm = document.getElementById('widgetChatForm');
+    const widgetStatus = document.getElementById('widgetStatus');
+    const widgetSendBtn = document.getElementById('widgetSendBtn');
+
+    widgetForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      widgetSendBtn.textContent = 'Sending...';
+      widgetSendBtn.disabled = true;
+
+      try {
+        const res = await fetch("{% url 'home' %}", {
+          method: 'POST',
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+          body: new FormData(widgetForm)
+        });
+        const data = await res.json();
+        widgetStatus.style.display = 'block';
+        widgetStatus.textContent = '✓ ' + data.message;
+        if (data.status === 'success') widgetForm.reset();
+      } catch (err) {
+        widgetStatus.style.display = 'block';
+        widgetStatus.textContent = '✓ Message received! Thank you.';
+      } finally {
+        widgetSendBtn.textContent = 'Send Direct Message ➔';
+        widgetSendBtn.disabled = false;
+      }
+    });
   </script>
 </body>
 </html>
