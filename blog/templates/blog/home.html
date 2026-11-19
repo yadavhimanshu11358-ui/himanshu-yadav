@@ -231,6 +231,15 @@
       font-size: 0.75rem; padding: 3px 9px; border-radius: 6px;
       background: var(--tile-bg); border: 1px solid var(--border); color: var(--muted); font-weight: 600;
     }
+    .proj-links-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+      padding-top: 14px; border-top: 1px solid var(--border);
+    }
+    .proj-links-row a {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--link-color); text-decoration: none; font-weight: 700; font-size: 0.9rem;
+    }
+    .proj-links-row a:hover { color: var(--accent2); }
 
     /* 4. SERVICES 3-COLUMN INTERACTIVE GRID */
     .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -550,19 +559,19 @@
               <span>Python</span>
               <span>VAPT</span>
               <span>AI Security</span>
-            <span>AI Security</span>
+            </div>
+          </div>
+          <div class="proj-links-row">
+            <a href="https://ai-vpan.vercel.app" target="_blank" rel="noopener noreferrer">
+              <span>Live Demo</span>
+              <span>↗</span>
+            </a>
+            <a href="https://github.com/yadavhimanshu11358-ui/AI_VPAN" target="_blank" rel="noopener noreferrer">
+              <span>Inspect Repository</span>
+              <span>↗</span>
+            </a>
+          </div>
         </div>
-        <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: center; margin-top: auto;">
-          <a href="https://ai-vpan.vercel.app" target="_blank" rel="noopener noreferrer" class="srv-link" style="width: auto; gap: 6px;">
-            <span>Live Demo</span>
-            <span>↗</span>
-          </a>
-          <a href="https://github.com/yadavhimanshu11358-ui/AI_VPAN" target="_blank" rel="noopener noreferrer" class="srv-link" style="width: auto; gap: 6px;">
-            <span>Inspect Repository</span>
-            <span>↗</span>
-          </a>
-        </div>
-      </div>
 
         <div class="proj-card">
           <div>
