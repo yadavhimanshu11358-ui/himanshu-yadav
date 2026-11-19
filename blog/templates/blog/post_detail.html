@@ -32,6 +32,38 @@
       --accent: #4f46e5;
       --accent2: #0d9488;
     }
+      /* Mobile Navbar & Quick Message Fix */
+@media (max-width: 768px) {
+  header, nav, .navbar {
+    padding: 10px 14px !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .nav-links, nav ul {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px 12px !important;
+    font-size: 13px !important;
+    width: 100% !important;
+    padding-top: 6px !important;
+  }
+
+  .quick-message,
+  #quick-message,
+  a[href*="quick"],
+  button[class*="quick"] {
+    bottom: 16px !important;
+    right: 16px !important;
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    border-radius: 50px !important;
+    z-index: 9999 !important;
+    max-width: calc(100vw - 32px) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35) !important;
+  }
+}
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
