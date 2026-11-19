@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tech & Growth Blog — Himanshu Yadav</title>
+  <style>
+    :root {
+      --bg: #070b19;
+      --bg-grad1: rgba(99, 102, 241, 0.16);
+      --bg-grad2: rgba(45, 212, 191, 0.12);
+      --nav-bg: rgba(7, 11, 25, 0.88);
+      --surface: rgba(17, 24, 49, 0.82);
+      --surface-hover: rgba(25, 35, 68, 0.94);
+      --tile-bg: rgba(7, 11, 25, 0.78);
+      --border: rgba(99, 102, 241, 0.25);
+      --text: #e2e8f0;
+      --heading: #ffffff;
+      --muted: #94a3b8;
+      --accent: #6366f1;
+      --accent2: #2dd4bf;
+    }
+
+    body.light-mode {
+      --bg: #f4f7fb;
+      --bg-grad1: rgba(99, 102, 241, 0.10);
+      --bg-grad2: rgba(13, 148, 136, 0.08);
+      --nav-bg: rgba(255, 255, 255, 0.92);
+      --surface: #ffffff;
+      --surface-hover: #f8fafc;
+      --tile-bg: #f1f5f9;
+      --border: rgba(99, 102, 241, 0.22);
+      --text: #1e293b;
+      --heading: #0f172a;
+      --muted: #475569;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, var(--bg-grad1), transparent 40%),
+        radial-gradient(circle at 88% 22%, var(--bg-grad2), transparent 40%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    /* Sticky Navbar */
+    header {
+      position: sticky; top: 0; z-index: 1000;
+      background: var(--nav-bg); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-wrap {
+      max-width: 1140px; margin: 0 auto; padding: 14px 22px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .brand { font-weight: 800; font-size: 1.25rem; color: var(--heading); text-decoration: none; }
+    .brand span { color: var(--accent2); }
+    nav { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+    nav > a, .drop-btn {
+      color: var(--text); text-decoration: none; font-size: 0.94rem; font-weight: 500;
+      background: none; border: none; cursor: pointer; font-family: inherit; transition: 0.2s;
+    }
+    nav > a:hover, .drop-btn:hover { color: #38bdf8; }
+
+    .theme-btn {
+      background: var(--surface); border: 1px solid var(--border); color: var(--heading);
+      padding: 6px 12px; border-radius: 999px; cursor: pointer; font-size: 0.86rem; font-weight: 600;
+    }
+
+    .dropdown { position: relative; }
+    .dropdown-menu {
+      position: absolute; top: 140%; left: -20px; width: 265px;
+      background: var(--surface); backdrop-filter: blur(16px);
+      border: 1px solid var(--border); border-radius: 16px;
+      padding: 10px; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+      opacity: 0; visibility: hidden; transform: translateY(10px); transition: 0.22s; z-index: 999;
+    }
+    .dropdown:hover .dropdown-menu, .dropdown.open .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+    .dropdown-menu a {
+      display: block; padding: 9px 13px; border-radius: 10px; text-decoration: none; color: var(--text); font-size: 0.9rem;
+    }
+    .dropdown-menu a:hover { background: rgba(99, 102, 241, 0.18); color: var(--accent); }
+
+    .container { max-width: 1140px; margin: 0 auto; padding: 40px 22px 80px; }
+
+    .alert-success {
+      background: rgba(16, 185, 129, 0.16); border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #10b981; padding: 14px 18px; border-radius: 14px; margin-bottom: 22px; font-weight: 600;
+    }
+
+    /* Hero Bento */
+    .blog-hero {
+      display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; align-items: center;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 34px; margin-bottom: 26px;
+    }
+    .hero-tag {
+      display: inline-block; background: rgba(45, 212, 191, 0.14); color: #0d9488;
+      border: 1px solid rgba(45, 212, 191, 0.35); padding: 4px 12px; border-radius: 999px;
+      font-size: 0.78rem; font-weight: 700; margin-bottom: 12px;
+    }
+    h1 { font-size: 2.1rem; color: var(--heading); line-height: 1.2; margin-bottom: 10px; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff;
+      border: none; cursor: pointer; padding: 10px 20px; border-radius: 11px; font-weight: 600; font-size: 0.92rem;
+    }
+    .stats-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat-tile {
+      background: var(--tile-bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px; text-align: center;
+    }
+    .stat-tile strong { display: block; font-size: 1.5rem; color: var(--heading); }
+    .stat-tile span { font-size: 0.8rem; color: var(--muted); }
+
+    /* Collapsible Write New Blog Form Box */
+    .compose-card {
+      display: none; background: var(--surface); border: 1px solid var(--accent);
+      border-radius: 20px; padding: 28px; margin-bottom: 28px;
+      box-shadow: 0 14px 35px rgba(99, 102, 241, 0.15);
+    }
+    .compose-card.open { display: block; }
+    .compose-grid { display: grid; gap: 14px; margin-top: 14px; }
+    .compose-grid input, .compose-grid textarea {
+      width: 100%; background: var(--tile-bg); border: 1px solid var(--border);
+      border-radius: 11px; padding: 12px 15px; color: var(--heading); font-size: 0.95rem; font-family: inherit;
+    }
+    .compose-grid input:focus, .compose-grid textarea:focus { outline: none; border-color: var(--accent); }
+
+    /* Controls Bar */
+    .controls-bar {
+      display: grid; grid-template-columns: 1.3fr auto auto; gap: 14px; align-items: center; margin-bottom: 26px;
+    }
+    .search-input {
+      width: 100%; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px 16px; color: var(--heading); font-size: 0.94rem;
+    }
+    .topic-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+    .topic-btn {
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      padding: 8px 14px; border-radius: 999px; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+    }
+    .topic-btn.active, .topic-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .view-toggle { display: flex; gap: 6px; background: var(--surface); padding: 4px; border-radius: 12px; border: 1px solid var(--border); }
+    .view-btn {
+      background: none; border: none; color: var(--muted); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 600;
+    }
+    .view-btn.active { background: var(--accent); color: #fff; }
+
+    /* 3-Column Bento Grid */
+    .posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .posts-grid.list-mode { grid-template-columns: 1fr; }
+    .post-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+      padding: 26px; transition: all 0.25s ease; display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .post-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+    .posts-grid:not(.list-mode) .post-card:first-child { grid-column: span 2; }
+
+    .card-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .cat-badge {
+      font-size: 0.74rem; color: #0d9488; background: rgba(45, 212, 191, 0.14);
+      border: 1px solid rgba(45, 212, 191, 0.3); padding: 3px 10px; border-radius: 999px; font-weight: 700;
+    }
+    .read-time { font-size: 0.78rem; color: var(--muted); }
+    .post-card h2 { font-size: 1.25rem; color: var(--heading); margin-bottom: 10px; line-height: 1.35; }
+    .post-card p { color: var(--muted); font-size: 0.92rem; margin-bottom: 20px; }
+    .card-actions {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      padding-top: 14px; border-top: 1px solid var(--border);
+    }
+    .read-btn { color: var(--accent); text-decoration: none; font-weight: 700; font-size: 0.9rem; }
+    .preview-btn {
+      background: var(--tile-bg); border: 1px solid var(--border);
+      color: var(--text); padding: 5px 11px; border-radius: 8px; font-size: 0.78rem; cursor: pointer;
+    }
+
+    /* Quick Preview Modal */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(4, 7, 17, 0.78); backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center; padding: 20px; z-index: 2000;
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal-box {
+      max-width: 680px; width: 100%; max-height: 85vh; overflow-y: auto;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 22px; padding: 32px;
+    }
+
+    @media (max-width: 940px) {
+      .blog-hero, .controls-bar { grid-template-columns: 1fr; }
+      .posts-grid { grid-template-columns: repeat(2, 1fr); }
+      .posts-grid:not(.list-mode) .post-card:first-child { grid-column: span 2; }
+    }
+    @media (max-width: 640px) {
+      .posts-grid { grid-template-columns: 1fr; }
+      .posts-grid:not(.list-mode) .post-card:first-child { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-wrap">
+      <a href="{% url 'home' %}" class="brand">Himanshu<span>.dev</span></a>
+      <nav>
+        <a href="{% url 'home' %}#home">Home</a>
+        <a href="{% url 'home' %}#about">About</a>
+
+        <div class="dropdown" id="servicesDropdown">
+          <button type="button" class="drop-btn" id="dropToggle">Services ▾</button>
+          <div class="dropdown-menu">
+            <a href="{% url 'service_detail' slug='digital-marketing' %}">Full-Stack Digital Marketing</a>
+            <a href="{% url 'service_detail' slug='seo' %}">SEO Optimization</a>
+            <a href="{% url 'service_detail' slug='ppc' %}">PPC Advertising</a>
+            <a href="{% url 'service_detail' slug='google-ads' %}">Google Ads Management</a>
+            <a href="{% url 'service_detail' slug='meta-ads' %}">Meta Ads (FB &amp; IG)</a>
+            <a href="{% url 'service_detail' slug='web-development' %}">Custom Web Development</a>
+          </div>
+        </div>
+
+        <a href="{% url 'home' %}#contact">Contact</a>
+        <a href="{% url 'blog_list' %}" style="color: var(--accent); font-weight: 700;">Blog</a>
+        <button type="button" class="theme-btn" id="themeToggle">☀️ Light</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert-success">✓ {{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <!-- Hero Bento -->
+    <div class="blog-hero">
+      <div>
+        <span class="hero-tag">● Knowledge Base &amp; Field Notes</span>
+        <h1>Articles, Security &amp; Growth Guides</h1>
+        <p style="color: var(--muted); font-size: 0.98rem; margin-bottom: 18px;">
+          Practical breakdowns on Python/Django engineering, cybersecurity best practices, and scaling businesses with SEO &amp; Paid Ads.
+        </p>
+        <button type="button" class="btn-primary" id="toggleComposeBtn">✍️ Write &amp; Publish New Blog</button>
+      </div>
+
+      <div class="stats-mini">
+        <div class="stat-tile">
+          <strong id="visibleCount">{{ posts|length }}</strong>
+          <span>Published Articles</span>
+        </div>
+        <div class="stat-tile">
+          <strong>100%</strong>
+          <span>Practical &amp; Jargon-Free</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Direct Blog Publish Form -->
+    <div class="compose-card" id="composeCard">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="color: var(--heading); font-size: 1.35rem;">Publish a New Blog Post</h2>
+        <button type="button" id="closeComposeBtn" style="background: none; border: none; color: var(--muted); font-size: 1.2rem; cursor: pointer;">✕</button>
+      </div>
+      <form method="POST" class="compose-grid">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Blog Title (e.g., How to Secure Your Django Web Application)" required />
+        <textarea name="content" rows="6" placeholder="Write your full article content here..." required></textarea>
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="submit" class="btn-primary">Publish Post Now ➔</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Search, Filter & View Switcher -->
+    <div class="controls-bar">
+      <input type="text" id="blogSearch" class="search-input" placeholder="🔍 Search articles by keyword, Python, SEO, security..." />
+
+      <div class="topic-filters">
+        <button type="button" class="topic-btn active" data-topic="all">All</button>
+        <button type="button" class="topic-btn" data-topic="python">Python &amp; Dev</button>
+        <button type="button" class="topic-btn" data-topic="security">Cybersecurity</button>
+        <button type="button" class="topic-btn" data-topic="growth">SEO &amp; Ads</button>
+      </div>
+
+      <div class="view-toggle">
+        <button type="button" class="view-btn active" id="gridViewBtn">⊞ Grid</button>
+        <button type="button" class="view-btn" id="listViewBtn">☰ List</button>
+      </div>
+    </div>
+
+    <!-- 3-Column Bento Grid -->
+    <div class="posts-grid" id="postsGrid">
+      {% for post in posts %}
+        <article class="post-card"
+                 data-title="{{ post.title|lower }}"
+                 data-content="{{ post.content|lower }}"
+                 data-full-title="{{ post.title }}"
+                 data-full-date="{{ post.created_at|date:'M d, Y' }}"
+                 data-full-body="{{ post.content }}">
+          <div>
+            <div class="card-top">
+              <span class="cat-badge">{% if forloop.first %}★ Featured{% else %}Article #{{ forloop.counter }}{% endif %}</span>
+              <span class="read-time">{{ post.created_at|date:"M d, Y" }} • <span class="est-min">3 min</span> read</span>
+            </div>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content|truncatewords:30 }}</p>
+          </div>
+
+          <div class="card-actions">
+            <a href="{% url 'post_detail' pk=post.pk %}" class="read-btn">Read Full Article ➔</a>
+            <button type="button" class="preview-btn">Quick Preview</button>
+          </div>
+        </article>
+      {% empty %}
+        <div class="post-card" style="grid-column: 1 / -1; text-align: center; padding: 48px 24px;">
+          <h2>No blog posts published yet</h2>
+          <p>Click "✍️ Write &amp; Publish New Blog" above to publish your first article right away!</p>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div id="noResults" style="display: none; text-align: center; padding: 40px; background: var(--surface); border-radius: 18px; border: 1px solid var(--border); margin-top: 20px;">
+      <h3 style="color: var(--heading); margin-bottom: 6px;">No matching articles found</h3>
+      <p style="color: var(--muted);">Try clearing your search or selecting "All" topics.</p>
+    </div>
+
+  </div>
+
+  <!-- Quick Preview Modal -->
+  <div class="modal-backdrop" id="previewModal">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 16px;">
+        <div>
+          <div id="modalDate" style="font-size: 0.8rem; color: #0d9488; font-weight: 600; margin-bottom: 6px;"></div>
+          <h2 id="modalTitle" style="font-size: 1.5rem; color: var(--heading);"></h2>
+        </div>
+        <button type="button" id="closeModal" style="background: var(--tile-bg); border: 1px solid var(--border); color: var(--heading); width: 34px; height: 34px; border-radius: 50%; cursor: pointer;">✕</button>
+      </div>
+      <div id="modalBody" style="color: var(--text); white-space: pre-line; font-size: 0.96rem; margin-bottom: 22px;"></div>
+      <a id="modalFullLink" href="#" class="btn-primary" style="text-decoration: none;">Open Full Page ➔</a>
+    </div>
+  </div>
+
+  <script>
+    // Dark / Light Mode Toggle (Saved in localStorage)
+    const themeToggle = document.getElementById('themeToggle');
+    function applyTheme(mode) {
+      if (mode === 'light') {
+        document.body.classList.add('light-mode');
+        themeToggle.textContent = '🌙 Dark';
+      } else {
+        document.body.classList.remove('light-mode');
+        themeToggle.textContent = '☀️ Light';
+      }
+    }
+    applyTheme(localStorage.getItem('siteTheme') || 'dark');
+    themeToggle.addEventListener('click', () => {
+      const next = document.body.classList.contains('light-mode') ? 'dark' : 'light';
+      localStorage.setItem('siteTheme', next);
+      applyTheme(next);
+    });
+
+    // Write New Blog Form Toggle
+    const composeCard = document.getElementById('composeCard');
+    document.getElementById('toggleComposeBtn').addEventListener('click', () => {
+      composeCard.classList.toggle('open');
+    });
+    document.getElementById('closeComposeBtn').addEventListener('click', () => {
+      composeCard.classList.remove('open');
+    });
+
+    // Navbar Dropdown
+    const dropWrap = document.getElementById('servicesDropdown');
+    document.getElementById('dropToggle').addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropWrap.classList.toggle('open');
+    });
+    document.addEventListener('click', () => dropWrap.classList.remove('open'));
+
+    // Live Search & Topic Filter
+    const cards = Array.from(document.querySelectorAll('.post-card[data-title]'));
+    const searchInput = document.getElementById('blogSearch');
+    const topicBtns = document.querySelectorAll('.topic-btn');
+    const noResults = document.getElementById('noResults');
+    const visibleCount = document.getElementById('visibleCount');
+    let activeTopic = 'all';
+
+    cards.forEach(card => {
+      const words = (card.getAttribute('data-full-body') || '').split(/\s+/).length;
+      const mins = Math.max(1, Math.ceil(words / 200));
+      const span = card.querySelector('.est-min');
+      if (span) span.textContent = `${mins} min`;
+    });
+
+    function filterPosts() {
+      const q = searchInput.value.toLowerCase().trim();
+      let shown = 0;
+      cards.forEach(card => {
+        const text = (card.getAttribute('data-title') + ' ' + card.getAttribute('data-content'));
+        const matchesSearch = text.includes(q);
+        let matchesTopic = true;
+        if (activeTopic === 'python') matchesTopic = /python|django|web|code|api|dev/.test(text);
+        else if (activeTopic === 'security') matchesTopic = /security|cyber|hack|ssl|auth|vuln/.test(text);
+        else if (activeTopic === 'growth') matchesTopic = /seo|ads|google|meta|marketing|business|traffic/.test(text);
+
+        if (matchesSearch && matchesTopic) {
+          card.style.display = 'flex';
+          shown++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      if (visibleCount) visibleCount.textContent = shown;
+      noResults.style.display = (cards.length > 0 && shown === 0) ? 'block' : 'none';
+    }
+
+    searchInput.addEventListener('input', filterPosts);
+    topicBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        topicBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeTopic = btn.getAttribute('data-topic');
+        filterPosts();
+      });
+    });
+
+    // Grid / List Switcher
+    const postsGrid = document.getElementById('postsGrid');
+    const gridViewBtn = document.getElementById('gridViewBtn');
+    const listViewBtn = document.getElementById('listViewBtn');
+    gridViewBtn.addEventListener('click', () => {
+      postsGrid.classList.remove('list-mode');
+      gridViewBtn.classList.add('active');
+      listViewBtn.classList.remove('active');
+    });
+    listViewBtn.addEventListener('click', () => {
+      postsGrid.classList.add('list-mode');
+      listViewBtn.classList.add('active');
+      gridViewBtn.classList.remove('active');
+    });
+
+    // Quick Preview Modal
+    const modal = document.getElementById('previewModal');
+    document.querySelectorAll('.preview-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.post-card');
+        document.getElementById('modalTitle').textContent = card.getAttribute('data-full-title');
+        document.getElementById('modalDate').textContent = 'Published on ' + card.getAttribute('data-full-date');
+        document.getElementById('modalBody').textContent = card.getAttribute('data-full-body');
+        document.getElementById('modalFullLink').href = card.querySelector('.read-btn').href;
+        modal.classList.add('show');
+      });
+    });
+    document.getElementById('closeModal').addEventListener('click', () => modal.classList.remove('show'));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
+  </script>
+</body>
+</html>
